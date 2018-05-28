@@ -1,0 +1,31 @@
+<% include ./partials/header %>
+<div class="container">
+    <div class="navbar">
+        <div class="logo">
+          <a href="/marks">reuMark</a>
+        </div>
+        <div class="nav">
+          <a href="/signout">SignOut</a>
+        </div>
+      </div>
+    <form action="/marks" method="POST">
+        <input class="url" type="url" name="mark[url]" placeholder="Link to bookmark..." autocomplete="off" title="Enter a valid URL.. for example: https://www.google.com" required>
+    </form>
+    <div class="marks">
+    <% marks.sort(function(a, b){return b.created - a.created}).forEach(function(mark){ %>
+        <a class="mark" href="<%= mark.url %>">
+            <div class="mark-left">
+                <img src="<%= mark.image %>" onerror="this.onerror=null;this.src='https://avatars3.githubusercontent.com/u/34133332?s=400&amp;v=4';">
+            </div>
+            <div class="mark-right">
+                <h3><%= mark.title %></h3>
+                <p><%= mark.description %></p>
+            </div>
+            <form class="options" action="/marks/<%= mark._id %>?_method=DELETE" method="POST">
+                <button class="delete">&#10005</button>
+            </form>
+        </a>
+    <% }) %>
+    </div>
+</div>
+<% include ./partials/footer %>
